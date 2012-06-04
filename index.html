@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -90,6 +89,19 @@
                   <select name="dob-year" id="dob-year" class="span2">
                     <option value="00">Year..</option>
                   </select>
+                  
+                  <br />
+                  <br />
+                  <a id="more-link" href="#" style="padding: 4px;">More [+]</a>
+                  <div id="more-container" class="well" style="display: none;">
+                    <h4>Other Units of Measure</h4>
+                    <ul class="form-inline unstyled">
+                      <li><input type="checkbox" id="unit-weeks">&nbsp;<label for="unit-weeks">Weeks</label></li>
+                      <li><input type="checkbox" id="unit-hours">&nbsp;<label for="unit-hours">Hours</label></li>
+                      <li><input type="checkbox" id="unit-minutes">&nbsp;<label for="unit-minutes">Minutes</label></li>
+                      <li><input type="checkbox" id="unit-seconds">&nbsp;<label for="unit-seconds">Seconds</label></li>
+                    </ul>
+                  </div>
                 </div>
               </div>
 
@@ -110,7 +122,6 @@
       </footer>
 
     </div>
-    <script type="text/javascript" src="public/js/bootstrap.min.js"></script>
 
     <script type="text/javascript">
     (function (document) {
@@ -123,9 +134,17 @@
             cancelButton = document.getElementById('dob-cancel'),
             resultElement = document.getElementById('result'),
             resultContainer = document.getElementById('result-container'),
+            moreLinkElement = document.getElementById('more-link'),
+            moreContainerElement = document.getElementById('more-container'),
             currentYear = (new Date()).getFullYear(),
             todayUnixTime = Math.round((new Date()).getTime() / 1000),
             dob = new Date(),
+            unitLabels = {
+              'unit-week': 'Weeks',
+              'unit-hour': 'Hours',
+              'unit-minute': 'Minutes',
+              'unit-seconds': 'Seconds'
+            },
             yearArray = [];
 
         // Set values for year field
@@ -137,6 +156,7 @@
 
         // Attach click event to submit
         submitButton.addEventListener('click', function (e) {
+            var results = [];
             e.preventDefault();
 
             try {
@@ -144,21 +164,43 @@
                 dob.setDate(parseInt(dayField.options[dayField.selectedIndex], 10).value);
                 dob.setFullYear(parseInt(yearField.options[yearField.selectedIndex].value, 10));
                 dob.setMonth(parseInt(monthField.options[monthField.selectedIndex].value, 10) - 1); // why JavaScript?
-
-                // Show results
-                resultElement.innerHTML = (Math.round((todayUnixTime - (Math.round(dob.getTime() / 1000))) / 86400)) + ' days since you were born!';
-                resultContainer.style.display = 'block';
-
             } catch (err) {
                 console.log(err);
             }
+            
+            for (label in unitLabels) {
+              console.log(label);
+              if (unitLabels.hasOwnProperty(label)) {
+                
+              }
+            }
+            
+            // Show results
+            resultElement.innerHTML = (Math.round((todayUnixTime - (Math.round(dob.getTime() / 1000))) / 86400)) + ' days since you were born!';
+            resultContainer.style.display = 'block';
         }, false);
 
         // Attach click event to cancel
         cancelButton.addEventListener('click', function (e) {
             e.preventDefault();
 
-            alert('Coming soon, promise!');
+            yearField.selectedIndex = 0;
+            monthField.selectedIndex = 0;
+            dayField.selectedIndex = 0;
+        }, false);
+
+        // Attach event to more link
+        moreLinkElement.addEventListener('click', function (e) {
+          var isVisible = moreContainerElement.style.display === 'block';
+          e.preventDefault();
+          
+          if (isVisible === false) {
+            moreContainerElement.style.display = 'block';
+            moreLinkElement.innerHTML = 'Less [-]';
+          } else {
+            moreContainerElement.style.display = 'none';
+            moreLinkElement.innerHTML = 'More [+]';
+          }
         }, false);
     }(window.document));
     </script>
