@@ -140,10 +140,22 @@
             todayUnixTime = Math.round((new Date()).getTime() / 1000),
             dob = new Date(),
             unitLabels = {
-              'unit-week': 'Weeks',
-              'unit-hour': 'Hours',
-              'unit-minute': 'Minutes',
-              'unit-seconds': 'Seconds'
+              'unit-weeks': {
+                'relativity' : 604800,
+                'label' : 'Weeks'
+              },
+              'unit-hours': {
+                'relativity' : 3600,
+                'label' : 'Hours'
+              },
+              'unit-minutes': {
+                'relativity' : 60,
+                'label' : 'Minutes'
+              },
+              'unit-seconds': {
+                'relativity' : 1,
+                'label' : 'Seconds'
+              }
             },
             yearArray = [];
 
@@ -167,16 +179,21 @@
             } catch (err) {
                 console.log(err);
             }
+
+            // Push default unit
+            results.push((Math.round((todayUnixTime - (Math.round(dob.getTime() / 1000))) / 86400)) + ' Days since you were born!');
             
-            for (label in unitLabels) {
-              console.log(label);
+            // Push additional units if requested
+            for (var label in unitLabels) {
               if (unitLabels.hasOwnProperty(label)) {
-                
+                if (document.getElementById(label).checked === true) {
+                  results.push((Math.round((todayUnixTime - (Math.round(dob.getTime() / 1000))) / unitLabels[label]['relativity'])) + ' ' + unitLabels[label]['label'] + ' since you were born!');
+                }
               }
             }
             
             // Show results
-            resultElement.innerHTML = (Math.round((todayUnixTime - (Math.round(dob.getTime() / 1000))) / 86400)) + ' days since you were born!';
+            resultElement.innerHTML = results.join('<br />');
             resultContainer.style.display = 'block';
         }, false);
 
