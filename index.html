@@ -19,14 +19,14 @@
         <h1>Days Since Birth</h1>
         <p>Use this tool to quickly calculate how many days it's been since you were born.</p>
       </div>
-      
+
       <div class="row">
         <div class="span4">
           <h4>Advertisement</h4>
         </div>
-        
+
         <div class="span8">
-          <div style="display: none" class="well">
+          <div style="display: none" class="well" id="result-container">
             <h2 id="result"></h2>
           </div>
 
@@ -95,56 +95,72 @@
 
               <div class="form-actions">
                 <button type="submit" class="btn btn-primary" id="dob-submit">Submit</button>
-                <button class="btn">Cancel</button>
+                <button class="btn" id="dob-cancel">Cancel</button>
               </div>
             </fieldset>
           </form>
-          
+
         </div>
       </div>
-      
+
       <hr>
-      
+
       <footer>
         <p>&copy; <a href="http://www.jason-palmer.com/" target="_blank">Jason Palmer</a> 2012</p>
       </footer>
 
     </div>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src="public/js/bootstrap.min.js"></script>
-    
+
     <script type="text/javascript">
-      (function($) {
-        var yearField = $('select[name="dob-year"]');
-        
-        for(var i = 2012; i >= 1900; i -= 1) {
-          yearField.append('<option value="' + i + '">' + i + '</option>');
+    (function (document) {
+        'use strict';
+
+        var yearField = document.getElementById('dob-year'),
+            monthField = document.getElementById('dob-month'),
+            dayField = document.getElementById('dob-day'),
+            submitButton = document.getElementById('dob-submit'),
+            cancelButton = document.getElementById('dob-cancel'),
+            resultElement = document.getElementById('result'),
+            resultContainer = document.getElementById('result-container'),
+            currentYear = (new Date()).getFullYear(),
+            todayUnixTime = Math.round((new Date()).getTime() / 1000),
+            dob = new Date(),
+            yearArray = [];
+
+        // Set values for year field
+        while (currentYear >= 1900) {
+            yearArray.push('<option value="' + currentYear + '">' + currentYear + '</option>');
+            currentYear -= 1;
         }
-        
-        $('#dob-submit').bind('click', function(e) {
-          e.preventDefault();
-          
-          try {            
-            var dob = new Date();
-            var today = Math.round((new Date()).getTime() / 1000);
-            
-            dob.setDate(parseInt($('#dob-day').val()));
-            dob.setFullYear(parseInt($('#dob-year').val()));
-            dob.setMonth(parseInt($('#dob-month').val() - 1)); // why, JavaScript?
-                        
-            var dobTime = Math.round(dob.getTime() / 1000);
-            
-            var daysSinceBirth = Math.round((today - dobTime) / 86400);
-            
-            $('#result').text(daysSinceBirth + ' days since you were born!');
-            $('#result').parent().show();
-          } catch (err) {
-            console.log(err);
-            
-            $('option').attr('selected', false);
-          }
-        });
-      }(jQuery));
+        yearField.innerHTML = yearField.innerHTML + yearArray.join('');
+
+        // Attach click event to submit
+        submitButton.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            try {
+                // Build date object from entered DOB
+                dob.setDate(parseInt(dayField.options[dayField.selectedIndex], 10).value);
+                dob.setFullYear(parseInt(yearField.options[yearField.selectedIndex].value, 10));
+                dob.setMonth(parseInt(monthField.options[monthField.selectedIndex].value, 10) - 1); // why JavaScript?
+
+                // Show results
+                resultElement.innerHTML = (Math.round((todayUnixTime - (Math.round(dob.getTime() / 1000))) / 86400)) + ' days since you were born!';
+                resultContainer.style.display = 'block';
+
+            } catch (err) {
+                console.log(err);
+            }
+        }, false);
+
+        // Attach click event to cancel
+        cancelButton.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            alert('Coming soon, promise!');
+        }, false);
+    }(window.document));
     </script>
   </body>
 </html>
