@@ -81,6 +81,16 @@
         dayField.selectedIndex = 0;
 
         moreContainerElement.style.display = 'none';
+        moreLinkElement.innerHTML = 'More [+]';
+
+        resultContainer.style.display = 'none';
+        resultElement.innerHTML = '';
+        
+        for (var label in unitLabels) {
+          if (unitLabels.hasOwnProperty(label)) {
+            d.getElementById(label).checked = false;
+          }
+        }
     }, false);
 
     // Attach event to more link
