@@ -79,6 +79,8 @@
         yearField.selectedIndex = 0;
         monthField.selectedIndex = 0;
         dayField.selectedIndex = 0;
+
+        moreContainerElement.style.display = 'none';
     }, false);
 
     // Attach event to more link
