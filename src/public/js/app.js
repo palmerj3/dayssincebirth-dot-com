@@ -1,15 +1,15 @@
-(function (document) {
+(function (d) {
     'use strict';
 
-    var yearField = document.getElementById('dob-year'),
-        monthField = document.getElementById('dob-month'),
-        dayField = document.getElementById('dob-day'),
-        submitButton = document.getElementById('dob-submit'),
-        cancelButton = document.getElementById('dob-cancel'),
-        resultElement = document.getElementById('result'),
-        resultContainer = document.getElementById('result-container'),
-        moreLinkElement = document.getElementById('more-link'),
-        moreContainerElement = document.getElementById('more-container'),
+    var yearField = d.getElementById('dob-year'),
+        monthField = d.getElementById('dob-month'),
+        dayField = d.getElementById('dob-day'),
+        submitButton = d.getElementById('dob-submit'),
+        cancelButton = d.getElementById('dob-cancel'),
+        resultElement = d.getElementById('result'),
+        resultContainer = d.getElementById('result-container'),
+        moreLinkElement = d.getElementById('more-link'),
+        moreContainerElement = d.getElementById('more-container'),
         currentYear = (new Date()).getFullYear(),
         todayUnixTime = Math.round((new Date()).getTime() / 1000),
         dob = new Date(),
@@ -60,7 +60,7 @@
         // Push additional units if requested
         for (var label in unitLabels) {
           if (unitLabels.hasOwnProperty(label)) {
-            if (document.getElementById(label).checked === true) {
+            if (d.getElementById(label).checked === true) {
               results.push((Math.round((todayUnixTime - (Math.round(dob.getTime() / 1000))) / unitLabels[label]['relativity'])).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' ' + unitLabels[label]['label']);
             }
           }
@@ -94,4 +94,4 @@
         moreLinkElement.innerHTML = 'More [+]';
       }
     }, false);
-}(window.document));
+}(document));
