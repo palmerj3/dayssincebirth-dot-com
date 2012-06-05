@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<project basedir="../" default="compile" name="DaysSinceBirth">
+  <property name="src" location="${basedir}/src"/>
+  <property name="build" location="${basedir}/build"/>
+  <property name="dist"  location="${basedir}/dist"/>
+
+  <taskdef name="jscomp" classname="com.google.javascript.jscomp.ant.CompileTask" classpath="${basedir}/build/compiler.jar"/>
+
+  <target name="init">
+    <mkdir dir="${dist}"/>
+    <mkdir dir="${dist}/public"/>
+    <mkdir dir="${dist}/public/js"/>
+    <mkdir dir="${dist}/public/css"/>
+    <mkdir dir="${dist}/public/img"/>    
+  </target>
+  
+  <target name="build-all" depends="init">
+    
+    <jscomp compilationLevel="simple" warning="verbose" debug="true" output="${dist}/public/js/app.js">
+      <sources dir="${src}/public/js">
+        <file name="app.js"/>
+      </sources>
+    </jscomp>
+    
+    <apply executable="java" parallel="false">
+      <fileset dir="${basedir}/src/" includes="*.html"></fileset>
+      <arg value="-jar"/>
+      <arg path="${basedir}/build/htmlcompressor-1.5.3.jar"/>
+      <arg line="--type html"/>
+      <srcfile/>
+      <arg value="-o"/>
+      <mapper type="glob" from="*" to="${basedir}/dist/*"/>
+      <targetfile/>
+    </apply>
+    
+  </target>
+
+</project>
