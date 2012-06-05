@@ -3,16 +3,20 @@
   <head>
     <meta charset="utf-8">
     <title>Days Since Birth</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Easily calculate the number of days since you were born">
-    <meta name="author" content="Jason Palmer">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Easily calculate the number of days since you were born" />
+    <meta name="author" content="Jason Palmer" />
+    
+    <meta property="og:url" content="http://www.dayssincebirth.com/" />
+    <meta property="og:title" content="Days Since Birth" />
+    <meta property="og:description" content="Easily calculate the number of days since you were born" />
+    <meta property="og:image" content="http://www.dayssincebirth.com/public/img/fbmeta.png" />
+    
     <link href="public/css/bootstrap.min.css" rel="stylesheet">
   </head>
 
   <body>
-    <div class="container">
-
+    <div class="container">          
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
         <h1>Days Since Birth</h1>
@@ -120,6 +124,8 @@
                 <button type="submit" class="btn btn-primary" id="dob-submit">Submit</button>
                 <button class="btn" id="dob-cancel">Cancel</button>
               </div>
+              
+              <div class="fb-like" data-href="http://www.dayssincebirth.com/" data-send="true" data-width="450" data-show-faces="true"></div>
             </fieldset>
           </form>
 
@@ -192,13 +198,13 @@
             }
 
             // Push default unit
-            results.push((Math.round((todayUnixTime - (Math.round(dob.getTime() / 1000))) / 86400)) + ' Days since you were born!');
+            results.push((Math.round((todayUnixTime - (Math.round(dob.getTime() / 1000))) / 86400)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Days since you were born!');
             
             // Push additional units if requested
             for (var label in unitLabels) {
               if (unitLabels.hasOwnProperty(label)) {
                 if (document.getElementById(label).checked === true) {
-                  results.push((Math.round((todayUnixTime - (Math.round(dob.getTime() / 1000))) / unitLabels[label]['relativity'])) + ' ' + unitLabels[label]['label'] + ' since you were born!');
+                  results.push((Math.round((todayUnixTime - (Math.round(dob.getTime() / 1000))) / unitLabels[label]['relativity'])).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' ' + unitLabels[label]['label'] + ' since you were born!');
                 }
               }
             }
@@ -245,5 +251,14 @@
       })();
 
     </script>
+    
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
   </body>
 </html>
