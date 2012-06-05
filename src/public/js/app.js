@@ -69,7 +69,7 @@
         // Show results
         resultElement.innerHTML = results.join('<hr />') + '<br /> Since you were born!';
         resultContainer.style.display = 'block';
-        return true;
+        return false;
     }, false);
 
     // Attach click event to cancel
