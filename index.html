@@ -198,19 +198,19 @@
             }
 
             // Push default unit
-            results.push((Math.round((todayUnixTime - (Math.round(dob.getTime() / 1000))) / 86400)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Days since you were born!');
+            results.push((Math.round((todayUnixTime - (Math.round(dob.getTime() / 1000))) / 86400)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Days');
             
             // Push additional units if requested
             for (var label in unitLabels) {
               if (unitLabels.hasOwnProperty(label)) {
                 if (document.getElementById(label).checked === true) {
-                  results.push((Math.round((todayUnixTime - (Math.round(dob.getTime() / 1000))) / unitLabels[label]['relativity'])).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' ' + unitLabels[label]['label'] + ' since you were born!');
+                  results.push((Math.round((todayUnixTime - (Math.round(dob.getTime() / 1000))) / unitLabels[label]['relativity'])).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' ' + unitLabels[label]['label']);
                 }
               }
             }
             
             // Show results
-            resultElement.innerHTML = results.join('<br />');
+            resultElement.innerHTML = results.join('<hr />') + '<br /> Since you were born!';
             resultContainer.style.display = 'block';
         }, false);
 
