@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project basedir="../" default="compile" name="DaysSinceBirth">
+<project basedir="../" default="build-all" name="DaysSinceBirth">
   <property name="src" location="${basedir}/src"/>
   <property name="build" location="${basedir}/build"/>
   <property name="dist"  location="${basedir}/dist"/>
