@@ -14,6 +14,10 @@
         todayUnixTime = Math.round((new Date()).getTime() / 1000),
         dob = new Date(),
         unitLabels = {
+          'unit-fortnights': {
+            'relativity' : 1209600,
+            'label' : 'Fortnights'
+          },
           'unit-weeks': {
             'relativity' : 604800,
             'label' : 'Weeks'
