@@ -51,21 +51,20 @@
 
         try {
             // Build date object from entered DOB
-            dob.setDate(parseInt(dayField.options[dayField.selectedIndex], 10).value);
+            dob.setDate(parseInt(dayField.options[dayField.selectedIndex].value, 10));
             dob.setFullYear(parseInt(yearField.options[yearField.selectedIndex].value, 10));
             dob.setMonth(parseInt(monthField.options[monthField.selectedIndex].value, 10) - 1); // why JavaScript?
         } catch (err) {
             return false;
         }
 
-        // Push default unit
-        results.push((Math.round((todayUnixTime - (Math.round(dob.getTime() / 1000))) / 86400)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Days');
+        results.push((Math.round((todayUnixTime - (dob.getTime() / 1000)) / 86400)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Days');
         
         // Push additional units if requested
         for (var label in unitLabels) {
           if (unitLabels.hasOwnProperty(label)) {
             if (d.getElementById(label).checked === true) {
-              results.push((Math.round((todayUnixTime - (Math.round(dob.getTime() / 1000))) / unitLabels[label]['relativity'])).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' ' + unitLabels[label]['label']);
+              results.push((Math.round((todayUnixTime - (dob.getTime() / 1000)) / unitLabels[label]['relativity'])).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' ' + unitLabels[label]['label']);
             }
           }
         }
